@@ -1,0 +1,33 @@
+# 依存パッケージ（サイズが大きく、npm i で再現可能なため）
+node_modules/
+jspm_packages/
+
+# 環境変数・機密情報（APIキーやパスワードが含まれるため絶対NG）
+.env
+.env.local
+.env.*.local
+
+# ビルド成果物（ソースコードから生成できるため）
+dist/
+build/
+out/
+
+# ログファイル（開発時のエラーログなど）
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 開発ツール・エディタの固有設定
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS固有の一時ファイル
+.DS_Store
+Thumbs.db
