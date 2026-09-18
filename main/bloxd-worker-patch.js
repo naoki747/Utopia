@@ -4,18 +4,18 @@
   /*
    * 二重実行を防止する。
    */
-  if (window.__utopiaWorkerPatchInstalled) {
+  if (window.__bloxdWorkerPatchInstalled) {
     return;
   }
 
-  window.__utopiaWorkerPatchInstalled = true;
+  window.__bloxdWorkerPatchInstalled = true;
 
   const NativeWorker = window.Worker;
   const NativeSharedWorker = window.SharedWorker;
 
   if (typeof NativeWorker !== "function") {
     console.error(
-      "[Utopia Worker Patch] Native Worker is unavailable.",
+      "[Bloxd Worker Patch] Native Worker is unavailable.",
     );
 
     return;
@@ -60,7 +60,7 @@
   }
 
   /*
-   * 現在のUtopia URLから元のBloxd URLを復元する。
+   * 現在のBloxd URLから元のBloxd URLを復元する。
    */
   function getOriginalPageUrl(config) {
     try {
@@ -98,12 +98,12 @@
 
       /*
        * 通常はdecodeUrlの結果に元のクエリも含まれる。
-       * そのため現在のUtopia側searchは追加しない。
+       * そのため現在のBloxd側searchは追加しない。
        */
       return new URL(decodedUrl);
     } catch (error) {
       console.warn(
-        "[Utopia Worker Patch] Original page URL decode failed:",
+        "[Bloxd Worker Patch] Original page URL decode failed:",
         error,
       );
 
@@ -182,7 +182,7 @@
     const resolved = new URL(resolvedUrl);
 
     /*
-     * すでにUtopiaの/service/配下なら、
+     * すでにBloxdの/service/配下なら、
      * 二重にエンコードしない。
      */
     if (
@@ -254,14 +254,14 @@
   /*
    * Workerコンストラクタを置き換える。
    */
-  class UtopiaWorker extends NativeWorker {
+  class BloxdWorker extends NativeWorker {
     constructor(url, options) {
       const config =
         getUvConfigSynchronously();
 
       if (!config) {
         console.warn(
-          "[Utopia Worker Patch] Worker was created before __uv$config became available:",
+          "[Bloxd Worker Patch] Worker was created before __uv$config became available:",
           {
             url: String(url),
             options,
@@ -284,7 +284,7 @@
         );
       } catch (error) {
         console.error(
-          "[Utopia Worker Patch] Worker URL rewrite failed:",
+          "[Bloxd Worker Patch] Worker URL rewrite failed:",
           {
             url: String(url),
             options,
@@ -300,7 +300,7 @@
         normalizeWorkerOptions(options);
 
       console.info(
-        "[Utopia Worker Patch] Worker URL rewritten:",
+        "[Bloxd Worker Patch] Worker URL rewritten:",
         {
           original: result.original,
           resolved: result.resolved,
@@ -318,7 +318,7 @@
         "error",
         event => {
           console.error(
-            "[Utopia Worker Patch] Worker error:",
+            "[Bloxd Worker Patch] Worker error:",
             {
               originalUrl:
                 result.original,
@@ -346,7 +346,7 @@
         "messageerror",
         event => {
           console.error(
-            "[Utopia Worker Patch] Worker message error:",
+            "[Bloxd Worker Patch] Worker message error:",
             {
               originalUrl:
                 result.original,
@@ -366,17 +366,17 @@
    */
   try {
     Object.setPrototypeOf(
-      UtopiaWorker,
+      BloxdWorker,
       NativeWorker,
     );
   } catch (error) {
     console.warn(
-      "[Utopia Worker Patch] Failed to copy Worker constructor prototype:",
+      "[Bloxd Worker Patch] Failed to copy Worker constructor prototype:",
       error,
     );
   }
 
-  window.Worker = UtopiaWorker;
+  window.Worker = BloxdWorker;
 
   /*
    * SharedWorkerも同じ方法で修正する。
@@ -384,14 +384,14 @@
   if (
     typeof NativeSharedWorker === "function"
   ) {
-    class UtopiaSharedWorker extends NativeSharedWorker {
+    class BloxdSharedWorker extends NativeSharedWorker {
       constructor(url, options) {
         const config =
           getUvConfigSynchronously();
 
         if (!config) {
           console.warn(
-            "[Utopia Worker Patch] SharedWorker was created before __uv$config became available:",
+            "[Bloxd Worker Patch] SharedWorker was created before __uv$config became available:",
             {
               url: String(url),
               options,
@@ -412,7 +412,7 @@
             );
         } catch (error) {
           console.error(
-            "[Utopia Worker Patch] SharedWorker URL rewrite failed:",
+            "[Bloxd Worker Patch] SharedWorker URL rewrite failed:",
             {
               url: String(url),
               options,
@@ -425,7 +425,7 @@
         }
 
         console.info(
-          "[Utopia Worker Patch] SharedWorker URL rewritten:",
+          "[Bloxd Worker Patch] SharedWorker URL rewritten:",
           result,
         );
 
@@ -438,24 +438,24 @@
 
     try {
       Object.setPrototypeOf(
-        UtopiaSharedWorker,
+        BloxdSharedWorker,
         NativeSharedWorker,
       );
     } catch (error) {
       console.warn(
-        "[Utopia Worker Patch] Failed to copy SharedWorker constructor prototype:",
+        "[Bloxd Worker Patch] Failed to copy SharedWorker constructor prototype:",
         error,
       );
     }
 
     window.SharedWorker =
-      UtopiaSharedWorker;
+      BloxdSharedWorker;
   }
 
   /*
    * ConsoleからURL変換をテストできる関数。
    */
-  window.__utopiaTestWorkerUrl = input => {
+  window.__bloxdTestWorkerUrl = input => {
     const config =
       getUvConfigSynchronously();
 
@@ -474,7 +474,7 @@
   waitForUvConfig()
     .then(config => {
       console.info(
-        "[Utopia Worker Patch] Installed:",
+        "[Bloxd Worker Patch] Installed:",
         {
           prefix: config.prefix,
           originalPage:
@@ -485,7 +485,7 @@
     })
     .catch(error => {
       console.error(
-        "[Utopia Worker Patch] UV configuration error:",
+        "[Bloxd Worker Patch] UV configuration error:",
         error,
       );
     });

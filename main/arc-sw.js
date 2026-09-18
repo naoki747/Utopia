@@ -1,5 +1,5 @@
 /*
- * Utopia proxy service worker
+ * Bloxd proxy service worker
  *
  * 主な処理:
  * 1. Ultraviolet経由でリクエストを取得する
@@ -23,7 +23,7 @@ importScripts("/uv/uv.sw.js");
  */
 if (typeof UVServiceWorker !== "function") {
   throw new Error(
-    "[Utopia] UVServiceWorker was not loaded. Check importScripts paths.",
+    "[Bloxd] UVServiceWorker was not loaded. Check importScripts paths.",
   );
 }
 
@@ -52,7 +52,7 @@ function isWorkerRelatedRequest(request) {
  * プロキシURLから元サイトのURLを復元する。
  *
  * 例:
- * https://utopia.example/service/エンコード済みURL
+ * https://bloxd.example/service/エンコード済みURL
  *
  * から:
  * https://bloxd.io/play/...
@@ -101,7 +101,7 @@ function decodeOriginalUrl(requestUrl) {
 
     return decodedUrl;
   } catch (error) {
-    console.warn("[Utopia SW] URL decode failed:", {
+    console.warn("[Bloxd SW] URL decode failed:", {
       requestUrl,
       error,
     });
@@ -148,7 +148,7 @@ function isHtmlResponse(response) {
 /*
  * Worker修正スクリプトが二重注入されるのを防ぐためのID。
  */
-const WORKER_PATCH_ID = "utopia-worker-url-patch";
+const WORKER_PATCH_ID = "bloxd-worker-url-patch";
 
 /*
  * BloxdのHTMLへWorker修正スクリプトを注入する。
@@ -175,7 +175,7 @@ async function injectWorkerPatch(request, response) {
     html = await response.text();
   } catch (error) {
     console.error(
-      "[Utopia SW] Failed to read Bloxd HTML:",
+      "[Bloxd SW] Failed to read Bloxd HTML:",
       error,
     );
 
@@ -190,7 +190,7 @@ async function injectWorkerPatch(request, response) {
   }
 
   const patchTag = [
-    `/utopia-worker-patch.js`,
+    `/bloxd-worker-patch.js`,
     `</script>`,
   ].join("");
 
@@ -212,7 +212,7 @@ async function injectWorkerPatch(request, response) {
   }
 
   console.info(
-    "[Utopia SW] Worker patch injected into Bloxd HTML:",
+    "[Bloxd SW] Worker patch injected into Bloxd HTML:",
     decodeOriginalUrl(request.url),
   );
 
@@ -278,7 +278,7 @@ function fixWorkerMimeType(request, response) {
    */
   if (!response.ok) {
     console.error(
-      "[Utopia SW] Worker resource request failed:",
+      "[Bloxd SW] Worker resource request failed:",
       {
         requestUrl,
         originalUrl: decodeOriginalUrl(requestUrl),
@@ -312,7 +312,7 @@ function fixWorkerMimeType(request, response) {
         .includes("text/html")
     ) {
       console.error(
-        "[Utopia SW] A Worker request returned HTML:",
+        "[Bloxd SW] A Worker request returned HTML:",
         {
           requestUrl,
           originalUrl: decodeOriginalUrl(requestUrl),
@@ -350,7 +350,7 @@ function logWorkerResponse(request, response) {
     return;
   }
 
-  console.info("[Utopia SW] Worker-related response:", {
+  console.info("[Bloxd SW] Worker-related response:", {
     requestUrl: request.url,
     originalUrl: decodeOriginalUrl(request.url),
     destination: request.destination,
@@ -401,7 +401,7 @@ async function handleProxyRequest(event) {
     return response;
   } catch (error) {
     console.error(
-      "[Utopia SW] Proxy request failed:",
+      "[Bloxd SW] Proxy request failed:",
       {
         requestUrl: request.url,
         originalUrl: decodeOriginalUrl(
@@ -419,7 +419,7 @@ async function handleProxyRequest(event) {
      */
     return new Response(
       [
-        "Utopia proxy request failed.",
+        "Bloxd proxy request failed.",
         "",
         `URL: ${request.url}`,
         `Error: ${error?.message || String(error)}`,
@@ -446,7 +446,7 @@ self.addEventListener("fetch", event => {
  * 更新したService Workerを早めに有効化する。
  */
 self.addEventListener("install", event => {
-  console.info("[Utopia SW] Installing.");
+  console.info("[Bloxd SW] Installing.");
 
   event.waitUntil(self.skipWaiting());
 });
@@ -455,7 +455,7 @@ self.addEventListener("install", event => {
  * 開いているページを新しいService Workerの制御下へ置く。
  */
 self.addEventListener("activate", event => {
-  console.info("[Utopia SW] Activated.");
+  console.info("[Bloxd SW] Activated.");
 
   event.waitUntil(self.clients.claim());
 });

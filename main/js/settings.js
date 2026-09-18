@@ -105,14 +105,14 @@ openLinks.querySelector(".rm").onclick = function(){
 
 openBlank.onclick = function() {
     var tab = window.open('about:blank', '_blank');
-    tab.document.documentElement.innerHTML = '<!DOCTYPE html><html><head><title>' + /*(localStorage.getItem("tabCloakTitle") ? localStorage.getItem("tabCloakTitle") : "Utopia")*/'Utopia' + '</title><link rel="icon" type="image/png" href="' + /*(localStorage.getItem("tabCloakIcon") ? localStorage.getItem("tabCloakIcon") : window.location.origin + "/favicon.ico")*/window.location.origin + "/favicon.ico" + '"><style>body {margin:0;overflow:hidden}</style></head><body><iframe width="100%" height="100%" src="' + window.location.href + '" frameborder="0"></iframe></body></html>';
+    tab.document.documentElement.innerHTML = '<!DOCTYPE html><html><head><title>' + /*(localStorage.getItem("tabCloakTitle") ? localStorage.getItem("tabCloakTitle") : "Bloxd Proxy")*/'Bloxd Proxy' + '</title><link rel="icon" type="image/png" href="' + /*(localStorage.getItem("tabCloakIcon") ? localStorage.getItem("tabCloakIcon") : window.location.origin + "/favicon.ico")*/window.location.origin + "/favicon.ico" + '"><style>body {margin:0;overflow:hidden}</style></head><body><iframe width="100%" height="100%" src="' + window.location.href + '" frameborder="0"></iframe></body></html>';
     tab.document.close();
 
     window.top.location.replace("https://www.google.com");
 }
 
 cancelBtn.onclick = function() {
-    parent.document.title = "Utopia";
+    parent.document.title = "Bloxd Proxy";
     localStorage.removeItem("tabCloakTitle");
     document.getElementById("cloakTitle").innerText = "none";
 
@@ -149,7 +149,7 @@ for(var i=0;i<allSettings.length;i++){
         if(this.id == "auto_cloak"){
             if(localStorage.getItem(this.id) == "true" && window.top.location.href != "about:blank"){
                 var tab = window.open('about:blank', '_blank');
-                tab.document.documentElement.innerHTML = '<!DOCTYPE html><html><head><title>' + /*(localStorage.getItem("tabCloakTitle") ? localStorage.getItem("tabCloakTitle") : "Utopia")*/'Utopia' + '</title><link rel="icon" type="image/png" href="' + /*(localStorage.getItem("tabCloakIcon") ? localStorage.getItem("tabCloakIcon") : window.location.origin + "/favicon.ico")*/window.location.origin + "/favicon.ico" + '"><style>body {margin:0;overflow:hidden}</style></head><body><iframe width="100%" height="100%" src="' + window.location.href + '" frameborder="0"></iframe></body></html>';
+                tab.document.documentElement.innerHTML = '<!DOCTYPE html><html><head><title>' + /*(localStorage.getItem("tabCloakTitle") ? localStorage.getItem("tabCloakTitle") : "Bloxd Proxy")*/'Bloxd Proxy' + '</title><link rel="icon" type="image/png" href="' + /*(localStorage.getItem("tabCloakIcon") ? localStorage.getItem("tabCloakIcon") : window.location.origin + "/favicon.ico")*/window.location.origin + "/favicon.ico" + '"><style>body {margin:0;overflow:hidden}</style></head><body><iframe width="100%" height="100%" src="' + window.location.href + '" frameborder="0"></iframe></body></html>';
                 tab.document.close();
 
                 window.top.location.replace("https://www.google.com");

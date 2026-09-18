@@ -1,5 +1,5 @@
 {
-  "name": "Utopia",
+  "name": "Bloxd Proxy",
   "version": "1.0.0",
   "description": "Epic proxy",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/EpicProgrammingPerson/Utopia-Beta.git"
+    "url": "git://github.com/EpicProgrammingPerson/Bloxd Proxy-Beta.git"
   },
   "keywords": [],
   "author": "",
